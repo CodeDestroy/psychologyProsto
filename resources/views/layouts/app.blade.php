@@ -12,7 +12,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    {{-- <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script> --}}
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -113,7 +113,7 @@
                             {{-- <svg class="h-5 w-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                 <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
                             </svg> --}}
-                            <span aria-hidden="true">→</span>
+                                <span aria-hidden="true">→</span>
                             </button>
                             <div 
                                 x-show="expanded" 
@@ -296,6 +296,7 @@
                 <div 
                     id='mobileMenu'
                     class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
+                    style="display: none"
                 >
                     <div class="flex items-center justify-between">
                     <a href="#" class="-m-1.5 p-1.5">
@@ -318,9 +319,24 @@
                             <a href="{{ url('/contacts') }}" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Контакты</a>
                             <a href="{{ url('/docs') }}" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Документы</a>
                         </div>
-                        <div class="py-6">
-                            <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Log in</a>
-                        </div>
+                        @guest
+                            @if (Route::has('login'))
+                                                    
+                                {{-- <a href="{{ route('login') }}" class="block font-semibold text-gray-900">
+                                    {{ __('Войти') }}
+                                    <span class="absolute inset-0"></span>
+                                </a> --}}
+                                <div class="py-6">
+                                    <a href="{{ route('login') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">{{ __('Войти') }}</a>
+                                </div>
+                            @endif
+                        @else
+                            
+                            <a href="{{ route('profile.general') }}" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">{{ Auth::user()->name }}</a>
+                        @endguest
+                        {{-- <div class="py-6">
+                            <a href="{{ route('login') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Войти</a>
+                        </div> --}}
                     </div>
                     </div>
                 </div>

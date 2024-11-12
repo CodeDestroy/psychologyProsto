@@ -10,7 +10,8 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
-
+use App\Models\Event;
+use Illuminate\Http\Request;
 Route::middleware('guest')->group(function () {
 
 
@@ -24,4 +25,12 @@ Route::middleware('auth:sanctum')->group(function () {
         return response()->json($request->user());
     }); */
 });
+
+Route::get('/api/events', function (Request $request) {
+    $date = $request->query('date');
+    return Event::whereDate('start_date', $date)
+                ->orderBy('start_time')
+                ->get();
+});
+
 

@@ -23,15 +23,15 @@
                         <svg class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M7.864 4.243A7.5 7.5 0 0119.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 004.5 10.5a7.464 7.464 0 01-1.15 3.993m1.989 3.559A11.209 11.209 0 008.25 10.5a3.75 3.75 0 117.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 01-3.6 9.75m6.633-4.596a18.666 18.666 0 01-2.485 5.33"></path>
                         </svg>
-                    Безопасность
+                        Безопасность
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold" x-state-description="undefined: &quot;bg-gray-50 text-indigo-600&quot;, undefined: &quot;text-gray-700 hover:text-indigo-600 hover:bg-gray-50&quot;">
+                    <a href="{{ route('profile.education') }}" class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold" x-state-description="undefined: &quot;bg-gray-50 text-indigo-600&quot;, undefined: &quot;text-gray-700 hover:text-indigo-600 hover:bg-gray-50&quot;">
                         <svg class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"></path>
                         </svg>
-                        Уведомления
+                        Обучение
                     </a>
                 </li>
                 <li>
@@ -53,41 +53,212 @@
                 <p class="mt-1 text-sm leading-6 text-gray-500">Эта информация доступна публично.</p>
   
                 <dl class="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6">
-                    <div class="pt-6 sm:flex">
+                    {{-- <div class="pt-6 sm:flex">
                         <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Фамилия</dt>
                         <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
                             <div class="text-gray-900">{{ Auth::user()->secondName }}</div>
                             <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500">Изменить</button>
                         </dd>
-                    </div>
-                    <div class="pt-6 sm:flex">
+                    </div> --}}
+                    <form id="secondNameForm" action="{{ route('profile.general.setSecondName') }}" method="POST">
+                        @csrf
+                        <div class="pt-6 sm:flex">
+                            <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Фамилия</dt>
+                            <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+                                <div class="text-gray-900">
+                                    <input 
+                                        id='secondNameInp' 
+                                        disabled 
+                                        name='secondName' 
+                                        value="{{ Auth::user()->secondName }}" 
+                                        class="bg-white"
+                                    >
+                                </div>
+                                <button type="button" onclick="updateSecondName(event)" class="font-semibold text-indigo-600 hover:text-indigo-500">Изменить</button>
+                                <button type="submit" id='secondNameSub' class="font-semibold text-indigo-600 hover:text-indigo-500" style="display: none">Сохранить</button>
+                            </dd>
+                        </div>
+                    </form>
+                    <script>
+                        function updateSecondName(event) {
+                            console.log()
+                            event.srcElement.style.display = 'none'
+                            document.getElementById('secondNameInp').disabled = false; 
+                            document.getElementById('secondNameInp').className = 'block w-full rounded-md border-0 py-1.5 px-4 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                            document.getElementById('secondNameSub').style.display = '';
+                        }
+                        
+                    </script>
+                    <form id="nameForm" action="{{ route('profile.general.setName') }}" method="POST">
+                        @csrf
+                        <div class="pt-6 sm:flex">
+                            <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Имя</dt>
+                            <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+                                <div class="text-gray-900">
+                                    <input 
+                                        id='nameInp' 
+                                        disabled 
+                                        name='name' 
+                                        value="{{ Auth::user()->name }}" 
+                                        class="bg-white"
+                                    >
+                                </div>
+                                <button type="button" onclick="updateName(event)" class="font-semibold text-indigo-600 hover:text-indigo-500">Изменить</button>
+                                <button type="submit" id='nameSub' class="font-semibold text-indigo-600 hover:text-indigo-500" style="display: none">Сохранить</button>
+                            </dd>
+                        </div>
+                    </form>
+                    <script>
+                        function updateName(event) {
+                            console.log()
+                            event.srcElement.style.display = 'none'
+                            document.getElementById('nameInp').disabled = false; 
+                            document.getElementById('nameInp').className = 'block w-full rounded-md border-0 py-1.5 px-4 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                            document.getElementById('nameSub').style.display = '';
+                        }
+                        
+                    </script>
+                    {{-- <div class="pt-6 sm:flex">
                         <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Имя</dt>
                         <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
                             <div class="text-gray-900">{{ Auth::user()->name }}</div>
                             <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500">Изменить</button>
                         </dd>
-                    </div>
-                    <div class="pt-6 sm:flex">
-                        <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Отчество</dt>
-                        <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                            <div class="text-gray-900">{{ Auth::user()->patronymicName }}</div>
-                            <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500">Изменить</button>
-                        </dd>
-                    </div>
-                    <div class="pt-6 sm:flex">
-                        <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Почта</dt>
-                        <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                            <div class="text-gray-900">{{ Auth::user()->email }}</div>
-                            <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500">Изменить</button>
-                        </dd>
-                    </div>
-                    <div class="pt-6 sm:flex">
-                        <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Телефон</dt>
-                        <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                            <div class="text-gray-900">{{ Auth::user()->phone }}</div>
-                            <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500">Изменить</button>
-                        </dd>
-                    </div>
+                    </div> --}}
+                    <form id="patronymicNameForm" action="{{ route('profile.general.setPatronymicName') }}" method="POST">
+                        @csrf
+                        <div class="pt-6 sm:flex">
+                            <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Отчество</dt>
+                            <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+                                <div class="text-gray-900">
+                                    <input 
+                                        id='patronymicNameInp' 
+                                        disabled 
+                                        name='patronymicName' 
+                                        value="{{ Auth::user()->patronymicName }}" 
+                                        class="bg-white"
+                                    >
+                                </div>
+                                <button type="button" onclick="updatePatronymicName(event)" class="font-semibold text-indigo-600 hover:text-indigo-500">Изменить</button>
+                                <button type="submit" id='patronymicNameSub' class="font-semibold text-indigo-600 hover:text-indigo-500" style="display: none">Сохранить</button>
+                            </dd>
+                        </div>
+                    </form>
+                    <script>
+                        function updatePatronymicName(event) {
+                            console.log()
+                            event.srcElement.style.display = 'none'
+                            document.getElementById('patronymicNameInp').disabled = false; 
+                            document.getElementById('patronymicNameInp').className = 'block w-full rounded-md border-0 py-1.5 px-4 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                            document.getElementById('patronymicNameSub').style.display = '';
+                        }
+                        
+                    </script>
+                    <form id="emailForm" action="{{ route('profile.general.setEmail') }}" method="POST">
+                        @csrf
+                        <div class="pt-6 sm:flex">
+                            <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Почта</dt>
+                            <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+                                <div class="text-gray-900">
+                                    <input 
+                                        id='emailInp' 
+                                        disabled 
+                                        name='email' 
+                                        value="{{ Auth::user()->email }}" 
+                                        class="bg-white"
+                                    >
+                                </div>
+                                <button type="button" onclick="updateEmail(event)" class="font-semibold text-indigo-600 hover:text-indigo-500">Изменить</button>
+                                <button type="submit" id='emailSub' class="font-semibold text-indigo-600 hover:text-indigo-500" style="display: none">Сохранить</button>
+                            </dd>
+                        </div>
+                    </form>
+                    <script>
+                        function updateEmail(event) {
+                            console.log()
+                            event.srcElement.style.display = 'none'
+                            document.getElementById('emailInp').disabled = false; 
+                            document.getElementById('emailInp').className = 'block w-full rounded-md border-0 py-1.5 px-4 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                            document.getElementById('emailSub').style.display = '';
+                        }
+                        
+                    </script>
+                    <form id="phoneForm" action="{{ route('profile.general.setPhone') }}" method="POST">
+                        @csrf
+                        <div class="pt-6 sm:flex">
+                            <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Телефон</dt>
+                            <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+                                <div class="text-gray-900">
+                                    <input 
+                                        id='phoneInp' 
+                                        disabled 
+                                        name='phone' 
+                                        value="{{ Auth::user()->phone }}" 
+                                        class="bg-white"
+                                    >
+                                </div>
+                                <button type="button" onclick="updatePhone(event)" class="font-semibold text-indigo-600 hover:text-indigo-500">Изменить</button>
+                                <button type="submit" id='phoneSub' class="font-semibold text-indigo-600 hover:text-indigo-500" style="display: none">Сохранить</button>
+                            </dd>
+                        </div>
+                    </form>
+                    <script>
+                        function updatePhone(event) {
+                            console.log()
+                            event.srcElement.style.display = 'none'
+                            document.getElementById('phoneInp').disabled = false; 
+                            document.getElementById('phoneInp').className = 'block w-full rounded-md border-0 py-1.5 px-4 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                            document.getElementById('phoneSub').style.display = '';
+                        }
+                        
+                    </script>
+                    <form id="tgNicknameForm" action="{{ route('profile.general.setTgNickname') }}" method="POST">
+                        @csrf
+                        <div class="pt-6 sm:flex">
+                            <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Аккаунт Telegram</dt>
+                            <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+                                <div class="text-gray-900">
+                                    <input 
+                                        id='tgNicknameInp' 
+                                        disabled 
+                                        name='tgNickname' 
+                                        value="{{ Auth::user()->tgNickname }}" 
+                                        class="bg-white"
+                                    >
+                                </div>
+                                <button type="button" onclick="updateTg(event)" class="font-semibold text-indigo-600 hover:text-indigo-500">Изменить</button>
+                                <button type="submit" id='tgNicknameSub' class="font-semibold text-indigo-600 hover:text-indigo-500" style="display: none">Сохранить</button>
+                            </dd>
+                        </div>
+                    </form>
+                    <script>
+                        function updateTg(event) {
+                            console.log()
+                            event.srcElement.style.display = 'none'
+                            document.getElementById('tgNicknameInp').disabled = false; 
+                            document.getElementById('tgNicknameInp').className = 'block w-full rounded-md border-0 py-1.5 px-4 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                            document.getElementById('tgNicknameSub').style.display = '';
+                        }
+                        
+                    </script>
+                    <form id="whatsAppForm" action="{{ route('profile.general.setWhatsApp') }}"  method="POST">
+                        @csrf
+                        <div class="pt-6 sm:flex">
+                            <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">WhatsApp по номеру</dt>
+                            {{-- <dd id='whatsAppDD' class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+                                <div class="text-gray-900">{{ Auth::user()->hasWhatsApp ? 'Есть WhatsApp' : 'Нет WhatsApp' }}</div>
+                                <button onclick="document.getElementById('whatsAppDD').style.display = 'none'; document.getElementById('whatsAppForm').style.display = 'block';" type="button" class="font-semibold text-indigo-600 hover:text-indigo-500">Изменить</button>
+                            </dd> --}}
+
+                            
+                            <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+                                <div class="text-gray-900"><input id="hasWhatsApp" type="hidden" value="{{ Auth::user()->hasWhatsApp }}" type="hidden" name="hasWhatsApp"> {{ Auth::user()->hasWhatsApp ? 'Есть WhatsApp' : 'Нет WhatsApp' }}</div>
+                                <button type="submit" class="font-semibold text-indigo-600 hover:text-indigo-500">Изменить</button>
+                            </dd>
+                            
+                        </div>
+                    </form>
+                    
                 </dl>
             </div>
   
