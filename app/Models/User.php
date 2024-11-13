@@ -35,11 +35,9 @@ class User extends Authenticatable
         'confirmed',
         'passportSeria',
         'passpoortNumber',
-        'isAPPCP',
-        'isHealthyChild',
-        'healthyChildInn',
-        'isStudent',
-        'isLegal'
+        'SNILS',
+        'workPost',
+        'spetiality'
     ];
 
     /**

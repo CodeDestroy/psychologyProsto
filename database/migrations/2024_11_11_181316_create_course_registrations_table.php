@@ -15,16 +15,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users')
             ->onDelete('cascade');
-            $table->boolean('isAPPCP');
+            $table->boolean('isAPPCP')->default(false);
             
-            $table->boolean('isHealthyChild');
-            $table->string('healthyChildInn');
-            $table->boolean('isStudent');
-            $table->boolean('isLegal');
-            $table->boolean('shouldBeCheckedOut');
-            $table->boolean('managerCheckedOut');
-            $table->string('passportSeria');
-            $table->string('passpoortNumber');
+            $table->boolean('isHealthyChild')->default(false);
+            $table->boolean('isStudent')->default(false);
+            $table->boolean('isLegal')->default(false);
+            $table->boolean('shouldBeCheckedOut')->default(false);
+            $table->boolean('managerCheckedOut')->default(false);
             $table->timestamps();
         });
     }

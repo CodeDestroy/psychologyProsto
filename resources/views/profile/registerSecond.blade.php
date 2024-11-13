@@ -9,7 +9,7 @@
         <h2 class="text-balance text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">Введите ваши данные</h2>
         <p class="mt-2 text-lg/8 text-gray-600">Введите дополнительные данные, мы проверим, можете ли вы получить скидку.</p>
     </div>
-    <form action="{{ route('profile.registerSecond') }}" method="POST" class="mx-auto mt-16 max-w-xl sm:mt-20">
+    <form action="{{ route('profile.registerSecond') }}" method="POST" enctype="multipart/form-data" class="mx-auto mt-16 max-w-xl sm:mt-20">
         @csrf
         <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
             <div class="sm:col-span-2">
@@ -25,15 +25,15 @@
                 </div>
             </div>
             <div class="sm:col-span-2">
-                <label for="postIndex" class="block text-sm/6 font-semibold text-gray-900">Почтовый индекс</label>
+                <label  for="postIndex" class="block text-sm/6 font-semibold text-gray-900">Почтовый индекс</label>
                 <div class="relative mt-2 rounded-md shadow-sm">
-                    <input required type="text" name="postIndex" id="postIndex" class="px-3.5 block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="000000">
+                    <input minlength="6" maxlength="6" required type="text" name="postIndex" id="postIndex" class="px-3.5 block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="000000">
                 </div>
             </div>
             <div class="sm:col-span-2">
-                <label for="postIndex" class="block text-sm/6 font-semibold text-gray-900">Телефон (через +7)</label>
+                <label for="phone" class="block text-sm/6 font-semibold text-gray-900">Телефон (через +7)</label>
                 <div class="relative mt-2 rounded-md shadow-sm">
-                    <input value="{{ Auth::user()->phone }}" required type="text" name="postIndex" id="postIndex" class="px-3.5 block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="(000)-00 00 000">
+                    <input value="{{ Auth::user()->phone }}" required type="text" name="phone" id="phone" class="px-3.5 block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="(000)-00 00 000">
                 </div>
             </div>
             <div class="sm:col-span-2">
@@ -51,13 +51,13 @@
             </div>
             <div class="sm:col-span-2">
                 <div class="relative mt-2 rounded-md shadow-sm items-center flex">
-                    <input onchange="showHealthyChild(this)" name="isHealthyChild" id="isHealthyChild" type="checkbox" value="isHealthyChild" class="accent-indigo-600 w-4 h-4 text-indigo-800 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input value="true" onchange="showHealthyChild(this)" name="isHealthyChild" id="isHealthyChild" type="checkbox" class="accent-indigo-600 w-4 h-4 text-indigo-800 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="isHealthyChild" class="my-2 ms-2.5 text-md font-medium text-black-900 dark:text-black-300">Являюсь работником франчайзинга «Здоровый ребёнок»</label>
                 </div>
             </div> 
             <div id="oplataUrLicoDiv" class="sm:col-span-2" style="display: none">
                 <div class="relative mt-2 rounded-md shadow-sm items-center flex">
-                    <input name="isLegal" id="isLegal" type="checkbox" value="isLegal" class="accent-indigo-600 w-4 h-4 text-indigo-800 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input value="true" name="isLegal" id="isLegal" type="checkbox" class="accent-indigo-600 w-4 h-4 text-indigo-800 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="isLegal" class="my-2 ms-2.5 text-md font-medium text-black-900 dark:text-black-300">Оплата осуществляется юридическим лицом</label>
                 </div>
             </div>       
@@ -66,10 +66,11 @@
                     const oplataUrLicoDiv = document.getElementById('oplataUrLicoDiv')
                     const isHealthyChildDiv = document.getElementById('isHealthyChildDiv')
                     const isStudentDiv = document.getElementById('isStudentDiv')
-                    const workPlace = document.getElementById('workPlace')
+                    const workPlace = document.getElementById('workPlaceDiv')
+                    console.log(workPlace)
                     if (event.checked) {
                         oplataUrLicoDiv.style.display = ''
-                        isHealthyChildDiv.style.display = ''
+                        workPlaceDiv.style.display = ''
                         isStudentDiv.style.display = 'none'
                         isStudentDiv.checked = false
                         workPlace.required = true
@@ -77,16 +78,16 @@
                     else {
                         oplataUrLicoDiv.style.display = 'none'
                         oplataUrLicoDiv.checked = false
-                        isHealthyChildDiv.style.display = 'none'
+                        workPlaceDiv.style.display = 'none'
                         isStudentDiv.style.display = ''
                         document.getElementById('workPlace').value = ''
                         workPlace.required = false
                     }
                 }
             </script>
-            <div id="isHealthyChildDiv" class="sm:col-span-2" style="display: none">
-                <label for="isHealthyChild" class="block text-sm font-medium leading-6 text-gray-900">Выберите юридическое лицо</label>
-                <select onchange="setWorkPlace(this.options[this.selectedIndex])" id="isHealthyChild" name="isHealthyChild" class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            <div id="workPlaceDiv" class="sm:col-span-2" style="display: none">
+                <label for="workPlaceSelect" class="block text-sm font-medium leading-6 text-gray-900">Выберите юридическое лицо</label>
+                <select onchange="setWorkPlace(this.options[this.selectedIndex])" id="workPlaceSelect" name="workPlaceSelect" class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
                     <option value="" selected>Выберите юридическое лицо</option>
                     <option value="340734888697">г. Видное, ИП Побирская ЕА, ИНН 340734888697</option>
                     <option value="9728064920">г. Москва,	ООО «Виктория», ИНН 9728064920</option>
@@ -107,13 +108,13 @@
             </script>
             <div id="isStudentDiv" class="sm:col-span-2">
                 <div class="relative mt-2 rounded-md shadow-sm items-center flex">
-                    <input onchange="" id="isStudent" type="checkbox" value="isStudent" class="accent-indigo-600 w-4 h-4 text-indigo-800 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input id="isStudent" value="true" type="checkbox" name="isStudent" class="accent-indigo-600 w-4 h-4 text-indigo-800 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="isStudent" class="my-2 ms-2.5 text-md font-medium text-black-900 dark:text-black-300">Являюсь студентом</label>
                 </div>
             </div> 
-            <div id="isStudentDiv" class="sm:col-span-2">
+            <div id="isAPPCPDiv" class="sm:col-span-2">
                 <div class="relative mt-2 rounded-md shadow-sm items-center flex">
-                    <input onchange="" id="isAPPCP" type="checkbox" value="isAPPCP" class="accent-indigo-600 w-4 h-4 text-indigo-800 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input id="isAPPCP" value="true" type="checkbox" name="isAPPCP" class="accent-indigo-600 w-4 h-4 text-indigo-800 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="isAPPCP" class="my-2 ms-2.5 text-md font-medium text-black-900 dark:text-black-300">Являюсь членом Ассоциации педагогов, психологов, психотерапевтов</label>
                 </div>
             </div> 
@@ -147,7 +148,7 @@
                     <div class="sm:col-span-2 mt-2">
                         <label for="passportSeria" class="block text-sm/6 font-medium text-gray-900">Серия</label>
                         <div class="relative mt-2 rounded-md shadow-sm">
-                            <input type="text" name="passportSeria" id="passportSeria" class="px-3.5 block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="0000">
+                            <input minlength="4" maxlength="4" type="text" name="passportSeria" id="passportSeria" class="px-3.5 block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="0000">
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                                 <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
@@ -158,7 +159,7 @@
                     <div class="sm:col-span-4 mt-2">
                         <label for="passpoortNumber" class="block text-sm/6 font-medium text-gray-900">Номер</label>
                         <div class="relative mt-2 rounded-md shadow-sm">
-                            <input type="text" name="passpoortNumber" id="passpoortNumber" class="px-3.5 block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="000-00-0000">
+                            <input minlength="6" maxlength="6" type="text" name="passpoortNumber" id="passpoortNumber" class="px-3.5 block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="000-00-0000">
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                                 <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
@@ -178,7 +179,7 @@
                         <div class="mt-4 flex text-sm/6 text-gray-600">
                             <label for="passportPhoto" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
                                 <span>Загрузите файлы</span>
-                                <input id="passportPhoto" name="passportPhoto" type="file" class="sr-only">
+                                <input multiple id="passportPhoto" name="passportPhoto" type="file" class="sr-only">
                             </label>
                             <p class="pl-1">или переместите файлы в это окно</p>
                         </div>
@@ -187,13 +188,6 @@
                 </div>
             </div>
 
-            
-            <div class="sm:col-span-2">
-                <label for="message" class="block text-sm/6 font-semibold text-gray-900">Напиши че нить</label>
-                <div class="mt-2.5">
-                    <textarea name="message" id="message" rows="4" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"></textarea>
-                </div>
-            </div>
             <div class="flex gap-x-4 sm:col-span-2">
                 <label class="inline-flex items-center mb-5 cursor-pointer">
                     <input required type="checkbox" value="agree" class="sr-only peer">

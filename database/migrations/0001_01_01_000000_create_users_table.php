@@ -28,6 +28,14 @@ return new class extends Migration
             $table->boolean('hasWhatsApp')->default(false);
             $table->string('phone')->nullable();
             $table->boolean('confirmed')->default(false);
+            
+            $table->string('passportSeria')->nullable();
+            $table->string('passpoortNumber')->nullable();
+
+            $table->string('SNILS')->nullable();
+            $table->string('workPost')->nullable();
+            $table->string('spetiality')->nullable();
+
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
