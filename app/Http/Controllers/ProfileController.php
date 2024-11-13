@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
+
 class ProfileController extends Controller
 {
     public function __construct()
@@ -30,6 +32,12 @@ class ProfileController extends Controller
     public function education() 
     {
         return view('profile.education');
+    }
+
+    
+    public function profile () {
+        return view('profile.registerSecond');
+
     }
 
     public function setWhatsApp(Request $request)//: RedirectResponse
@@ -87,4 +95,26 @@ class ProfileController extends Controller
         $user->save();
         return redirect('/profile');
     }
+
+    public function registerSecond(Request $request) 
+    {
+        /* snils: 123-123-123 12
+        address: Воронеж 25 января 34а 70
+        postIndex: 369852
+        postIndex: 9005555555
+        email: test@test.com
+        birthDay: 2001-12-24
+        isHealthyChild: isHealthyChild
+        isLegal: isLegal
+        isHealthyChild: 340734888697
+        workPlace: г. Видное, ИП Побирская ЕА, ИНН 340734888697
+        workPost: 123
+        spetiality: 123
+        tgNickname: 123
+        passportSeria: 2022
+        passpoortNumber: 123456
+        passportPhoto: бусыгин.png */
+        return $request;
+    }
+
 }

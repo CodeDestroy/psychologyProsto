@@ -3,31 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\Event;
-
 /* Route::get('/home', function () {
     return view('home');
 
 }); */
-
-Auth::routes();
-Route::get('/', function () {
-    return view('home');
-});
-Route::controller(App\Http\Controllers\ProfileController::class)->group(function () {
-    Route::get('/profile', 'index')->name('profile.general');
-    Route::get('/profile/security', 'security')->name('profile.security');
-    
-    Route::get('/profile/education', 'education')->name('profile.education');
-    Route::post('/profile/general/setWhatsApp', 'setWhatsApp')->name('profile.general.setWhatsApp');
-    Route::post('/profile/general/setTgNickname', 'setTgNickname')->name('profile.general.setTgNickname');
-    Route::post('/profile/general/setEmail', 'setEmail')->name('profile.general.setEmail');
-    Route::post('/profile/general/setName', 'setName')->name('profile.general.setName');
-    Route::post('/profile/general/setSecondName', 'setSecondName')->name('profile.general.setSecondName');
-    Route::post('/profile/general/setPatronymicName', 'setPatronymicName')->name('profile.general.setPatronymicName');
-    Route::post('/profile/general/setPhone', 'setPhone')->name('profile.general.setPhone');
-    
-});  
-
 
 Route::controller(App\Http\Controllers\HomeController::class)->group(function () {
     Route::get('/', 'index')->name('home');
@@ -41,3 +20,30 @@ Route::get('/api/events', function (Request $request) {
                 ->orderBy('start_time')
                 ->get();
 });
+Route::controller(App\Http\Controllers\PaymentController::class)->group(function () {
+    Route::get('/payment', 'index')->name('payment.index');
+    Route::get('/payment/success', 'success')->name('payment.success');
+    Route::get('/payment/fail', 'fail')->name('payment.fail');
+}); 
+Auth::routes();
+/* Route::get('/', function () {
+    return view('home');
+}); */
+Route::controller(App\Http\Controllers\ProfileController::class)->group(function () {
+    Route::get('/settings', 'index')->name('settings.general');
+    Route::get('/settings/security', 'security')->name('settings.security');
+    
+    Route::get('/settings/education', 'education')->name('settings.education');
+    Route::post('/settings/general/setWhatsApp', 'setWhatsApp')->name('settings.general.setWhatsApp');
+    Route::post('/settings/general/setTgNickname', 'setTgNickname')->name('settings.general.setTgNickname');
+    Route::post('/settings/general/setEmail', 'setEmail')->name('settings.general.setEmail');
+    Route::post('/settings/general/setName', 'setName')->name('settings.general.setName');
+    Route::post('/settings/general/setSecondName', 'setSecondName')->name('settings.general.setSecondName');
+    Route::post('/settings/general/setPatronymicName', 'setPatronymicName')->name('settings.general.setPatronymicName');
+    Route::post('/settings/general/setPhone', 'setPhone')->name('settings.general.setPhone');
+    
+
+    Route::get('/profile', 'profile')->name('profile.general');
+    Route::post('/profile/registerSecond', 'registerSecond')->name('profile.registerSecond');
+});  
+

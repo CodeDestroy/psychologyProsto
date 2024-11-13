@@ -245,7 +245,7 @@
   
   
   
-<div x-data="calendarComponent()" class="container bg-white py-24 sm:py-32 mx-auto">
+{{-- <div x-data="calendarComponent()" class="container bg-white py-24 sm:py-32 mx-auto">
     <h2 class="text-base font-semibold leading-6 text-gray-900">Предстоящие встречи</h2>
     <div class="lg:grid lg:grid-cols-12 lg:gap-x-16">
         <!-- Навигация по месяцам -->
@@ -296,7 +296,7 @@
                 </template>
             </div>
         </div>
-        
+
         <ol class="mt-4 divide-y divide-gray-100 text-sm leading-6 lg:col-span-7 xl:col-span-8">
             <template x-for="event in events" :key="event.id">
                 <li class="relative flex space-x-6 py-6 xl:static">
@@ -313,22 +313,12 @@
                                     </dt>
                                 <dd><time x-text="formatDateTime(event.start_date, event.start_time)"></time></dd>
                             </div>
-                            {{-- <div class="mt-2 flex items-start space-x-3 xl:ml-3.5 xl:mt-0 xl:border-l xl:border-gray-400 xl:border-opacity-50 xl:pl-3.5">
-                                <dt class="mt-0.5">
-                                    <span class="sr-only">Location</span>
-                                    <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                        <path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.273 1.765 11.842 11.842 0 00.976.544l.062.029.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clip-rule="evenodd" />
-                                    </svg>
-                                </dt>
-                                <dd>Starbucks</dd>
-                            </div> --}}
                         </dl>
                     </div>
                 </li>
             </template>
             <div x-show="events.length === 0">
                 <li class="relative flex space-x-6 py-6 xl:static"><h3 class="pr-10 font-semibold text-gray-900 xl:pr-0">На выбранную дату нет событий.</h3></li>
-                {{-- <p>На выбранную дату нет событий.</p> --}}
             </div>
         </ol>
     </div>
@@ -454,153 +444,6 @@
             }
         };
     }
-</script>
-
-
-{{-- <div x-data="calendarComponent()" class="container bg-white py-24 sm:py-32 mx-auto">
-    <h2 class="text-base font-semibold leading-6 text-gray-900">Предстоящие встречи</h2>
-    <div class="lg:grid lg:grid-cols-12 lg:gap-x-16">
-        <!-- Навигация по месяцам -->
-        <div class="mt-10 text-center lg:col-start-8 lg:col-end-13 lg:row-start-1 lg:mt-9 xl:col-start-9">
-            <div class="flex items-center text-gray-900">
-                <button @click="prevMonth" class="-m-1.5 flex items-center justify-center p-1.5 text-gray-400 hover:text-gray-500">
-                    <span class="sr-only">Предыдущий месяц</span>
-                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
-                    </svg>
-                </button>
-                <div class="flex-auto text-sm font-semibold" x-text="monthNames[month] + ' ' + year"></div>
-                <button @click="nextMonth" class="-m-1.5 flex items-center justify-center p-1.5 text-gray-400 hover:text-gray-500">
-                    <span class="sr-only">Следующий месяц</span>
-                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-                    </svg>
-                </button>
-            </div>
-            
-            <!-- Заголовки дней недели -->
-            <div class="mt-6 grid grid-cols-7 text-xs leading-6 text-gray-500">
-                <template x-for="day in weekDays" :key="day">
-                    <div x-text="day"></div>
-                </template>
-            </div>
-            
-            <!-- Сетка календаря -->
-            <div class="isolate mt-2 grid grid-cols-7 gap-px rounded-lg bg-gray-200 text-sm shadow ring-1 ring-gray-200">
-                <template x-for="(day, index) in days" :key="index">
-                    <button 
-                        @click="selectDate(day.date)"
-                        :class="{
-                            'bg-white text-gray-900': day.currentMonth && !day.isToday,
-                            'bg-gray-50 text-gray-400': !day.currentMonth,
-                            'bg-indigo-600 text-white font-semibold': day.isToday,
-                            'rounded-tl-lg': index === 0,
-                            'rounded-tr-lg': index === 6,
-                            'rounded-bl-lg': index === days.length - 7,
-                            'rounded-br-lg': index === days.length - 1
-                        }"
-                        class="py-1.5 hover:bg-gray-100 focus:z-10"
-                        x-text="day.day"
-                    >
-                        <time :datetime="day.date" x-text="day.day" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full"></time>
-                    </button>
-                </template>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script defer>
-    function calendarComponent() {
-        return {
-            month: new Date().getMonth(),
-            year: new Date().getFullYear(),
-            monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-            weekDays: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
-            
-            days: [],
-            
-            init() {
-                this.generateCalendar();
-            },
-            
-            generateCalendar() {
-                const firstDayOfMonth = new Date(this.year, this.month, 1);
-                const lastDayOfMonth = new Date(this.year, this.month + 1, 0);
-                const firstDayOfWeek = firstDayOfMonth.getDay() || 7; // Sunday as 7
-                const totalDays = lastDayOfMonth.getDate();
-                
-                this.days = [];
-                
-                // Previous month's days
-                for (let i = 1; i < firstDayOfWeek; i++) {
-                    this.days.push({
-                        day: new Date(this.year, this.month, i - firstDayOfWeek + 1).getDate(),
-                        currentMonth: false,
-                        date: this.formatDate(this.year, this.month, i - firstDayOfWeek + 1),
-                        isToday: false
-                    });
-                }
-                
-                // Current month's days
-                for (let day = 1; day <= totalDays; day++) {
-                    const isToday = day === new Date().getDate() && this.month === new Date().getMonth() && this.year === new Date().getFullYear();
-                    this.days.push({
-                        day,
-                        currentMonth: true,
-                        date: this.formatDate(this.year, this.month, day),
-                        isToday
-                    });
-                }
-                
-                // Next month's days
-                const remainingDays = 42 - this.days.length;
-                for (let i = 1; i <= remainingDays; i++) {
-                    this.days.push({
-                        day: i,
-                        currentMonth: false,
-                        date: this.formatDate(this.year, this.month + 1, i),
-                        isToday: false
-                    });
-                }
-            },
-            
-            prevMonth() {
-                this.month--;
-                if (this.month < 0) {
-                    this.month = 11;
-                    this.year--;
-                }
-                this.generateCalendar();
-            },
-            
-            nextMonth() {
-                this.month++;
-                if (this.month > 11) {
-                    this.month = 0;
-                    this.year++;
-                }
-                this.generateCalendar();
-            },
-            
-            formatDate(year, month, day) {
-                return new Date(year, month, day).toISOString().split('T')[0];
-            },
-
-            async loadEvents(date) {
-                    this.selectedDate = date.toISOString().split('T')[0];
-                    try {
-                        const response = await fetch(`/api/events?date=${this.selectedDate}`);
-                        this.events = await response.json();
-                    } catch (error) {
-                        console.error("Ошибка загрузки событий:", error);
-                    }
-            },
-
-            selectDate(date) {
-                this.loadEvents(new Date(date));
-            },
-        };
-    }
 </script> --}}
+
 @endsection
